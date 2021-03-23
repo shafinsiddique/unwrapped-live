@@ -8,6 +8,11 @@
     src: url("./fonts/Montserrat-Regular.ttf")
 }
 
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url("./fonts/Montserrat-Bold.ttf")
+}
+
 * {
     line-height: 1;
 }
@@ -45,7 +50,7 @@ body {
 .navbar-container {
     margin-left: auto;
     margin-right: auto;
-    max-width: 1296px;
+    max-width: 1200px;
     margin-top: 15px;
     margin-bottom: 15px;
     display: flex;
@@ -71,4 +76,53 @@ body {
 .nav-items-container {
     font-family: 'Montserrat-Regular',serif;
     color: white;
+}
+
+.main-content-container {
+    max-width: 1200px;
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-text-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    align-items: center;
+}
+
+.main-description-text {
+    font-family: 'Montserrat-Bold',serif;
+    color: white;
+    font-size: 50px;
+}
+
+.sub-description-text {
+    font-family: 'Montserrat-Bold',serif;
+    color: white;
+    font-size: 20px;
+    padding-top: 20px;
+}
+
+.connect-spotify-btn {
+    background-color: #1DB954;
+    color: white;
+    border-radius: 500px;
+    font-size: 13px;
+    font-family: 'Montserrat-Bold',serif;
+    padding: 19px 56px 21px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-padding {
+    padding-top: 20px;
 }
