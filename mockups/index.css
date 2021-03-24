@@ -221,3 +221,18 @@ body {
 .second-header-padding {
     padding-top: 70px;
 }
+
+@media (max-width: 600px) {
+    .summary-container {
+        text-align: center;
+    }
+    .tracks-row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .listing-padding {
+        padding-left: 0px;
+        padding-top: 40px;
+    }
+}
