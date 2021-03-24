@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Image from 'next/image'
 import Navbar from "../components/Navbar";
+import SpotifyButton from '../components/SpotifyButton'
 export default function HomePage() {
   return (
     <div className="container">
@@ -14,7 +15,7 @@ export default function HomePage() {
                     </span>
                   <span className={styles.subDescriptionText}>You don't have to wait till the end of the year.</span>
                   <div className={styles.btnPadding}>
-                      <button className={styles.connectSpotifyBtn}>Connect Spotify</button>
+                      <SpotifyButton>Connect Spotify</SpotifyButton>
                   </div>
               </div>
           </div>

@@ -23,20 +23,8 @@
     padding-top: 15px;
 }
 
-.connectSpotifyBtn {
-    background-color: #1DB954;
-    color: white;
-    border-radius: 500px;
-    font-size: 13px;
-    font-family: 'Montserrat-Bold',serif;
-    padding: 19px 56px 21px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-
 .btnPadding {
-    padding-top: 15px;
+    padding-top: 25px;
 }
 
 .mainContentContainer {
