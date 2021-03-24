@@ -32,7 +32,6 @@ body {
     /*background-position: center;*/
     /*background-repeat: no-repeat;*/
     /*background-size: cover;*/
-    background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
 }
 
 .container {
@@ -47,6 +46,16 @@ body {
     overflow: hidden;
 }
 
+.navbar-2 {
+    width: 100%;
+    background-color: black;
+    overflow: hidden;
+
+
+}
+
+
+
 .navbar-container {
     margin-left: auto;
     margin-right: auto;
@@ -60,6 +69,10 @@ body {
 
 }
 
+.logo-font {
+    font-family: 'Montserrat-Semi-Bold',serif;
+    color: white;
+}
 .logo-container {
     display: flex;
     font-family: 'Montserrat-Semi-Bold', serif;
@@ -83,6 +96,24 @@ body {
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-container {
+    max-width: 1200px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+
+.img-button {
+    cursor: pointer;
+}
+.summary-row-1 {
     display: flex;
     flex-direction: column;
 }
@@ -125,4 +156,68 @@ body {
 
 .btn-padding {
     padding-top: 20px;
+}
+
+.colored-bg {
+    background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+
+}
+
+.img-box {
+    width: 200px;
+    height: 200px;
+}
+
+.track-img {
+    width: 100%;
+    height: 100%;
+}
+.top-title {
+    font-family: 'Montserrat-Bold',serif;
+    font-size: 20px;
+
+}
+
+.summary-row-1 {
+    display: flex;
+}
+
+.summary-table-header {
+    font-family: 'Montserrat-Semi-Bold',serif;
+    color: white;
+    font-size: 30px;
+}
+
+.tracks-row {
+    display: flex;
+    align-items: center;
+}
+
+.song-name {
+    color: white;
+    font-family: 'Montserrat-Semi-Bold',serif;
+    font-size: 13px;
+}
+
+.artist-name {
+    font-family: 'Montserrat-Regular',serif;
+    font-size: 10px;
+    color: #D3D3D3;
+
+}
+.top-tracks-padding {
+    padding-top: 30px;
+}
+
+.listing {
+    display: flex;
+    flex-direction: column;
+}
+
+.listing-padding {
+    padding-left: 30px;
+}
+
+.second-header-padding {
+    padding-top: 70px;
 }
