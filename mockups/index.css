@@ -54,6 +54,9 @@ body {
 
 }
 
+.wrapped-heading-display {
+    display: block;
+}
 
 
 .navbar-container {
@@ -65,7 +68,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
 
 }
 
@@ -222,6 +224,14 @@ body {
     padding-top: 70px;
 }
 
+.spotify-btn {
+    background-color: #1DB954;
+    border-radius: 100px;
+    border: none;
+    outline: none;
+    color: white;
+}
+
 @media (max-width: 600px) {
     .summary-container {
         text-align: center;
@@ -234,5 +244,9 @@ body {
     .listing-padding {
         padding-left: 0px;
         padding-top: 40px;
+    }
+
+    .wrapped-heading-display {
+        display: none;
     }
 }
