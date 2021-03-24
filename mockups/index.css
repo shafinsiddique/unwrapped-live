@@ -28,6 +28,8 @@ body {
     /*height: 100%;*/
     margin:0;
     padding: 0;
+    height: 100%;
+    width: 100%;
     /*!* Center and scale the image nicely *!*/
     /*background-position: center;*/
     /*background-repeat: no-repeat;*/
@@ -37,6 +39,9 @@ body {
 .container {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
+
 }
 
 .navbar {
@@ -162,7 +167,6 @@ body {
 
 .colored-bg {
     background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
-
 }
 
 .img-box {
