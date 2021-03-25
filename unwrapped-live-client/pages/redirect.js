@@ -7,8 +7,11 @@ export default class RedirectPage extends React.Component {
         var validated = false
         if (auth_code) {
             //  send auth_code to server for validation.
+            fetch("http://localhost:5000/auth/" + auth_code).then(response => response.json()).then(data => {
+                alert(JSON.stringify(data))
+            })
 
-
+            validated = true
 
         }
 
