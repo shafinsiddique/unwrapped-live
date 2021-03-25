@@ -1,23 +1,27 @@
 import React from 'react'
-const HOME = "http://localhost:3000"
+import {HOME, JWT_KEY, WRAPPED} from "../components/consts";
+
 export default class RedirectPage extends React.Component {
     componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
         const auth_code = urlParams.get("code")
-        var validated = false
         if (auth_code) {
-            //  send auth_code to server for validation.
+
             fetch("http://localhost:5000/auth/" + auth_code).then(response => response.json()).then(data => {
-                alert(JSON.stringify(data))
+                var jwt_token = data["jwt"]
+                localStorage.setItem(JWT_KEY, jwt_token)
+                window.location.href = WRAPPED
+
+            }).catch(() => {
+                window.location.href = HOME
             })
 
-            validated = true
-
-        }
-
-        if (!validated){
+        } else if (localStorage.getItem(JWT_KEY) !== null) {
+            window.location.href = WRAPPED
+        } else {
             window.location.href = HOME
         }
+
     }
 
     render(){

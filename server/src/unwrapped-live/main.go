@@ -57,6 +57,8 @@ func sendJson(w http.ResponseWriter, data interface{}) {
 
 func authorize(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Request Received")
+
+
 	code, _:= mux.Vars(r)["code"]
 	data := url.Values{}
 	data.Set(GRANT_TYPE, AUTHORIZATION_CODE)
@@ -74,10 +76,37 @@ func authorize(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getData(w http.ResponseWriter, r *http.Request){
+	jwt_token := r.Header.Get(AUTHORIZATION_HEADER)
+	for k, v := range r.Header {
+		fmt.Println(k + ":" + v[0])
+	}
+	fmt.Println(jwt_token)
+	claims := jwt.MapClaims{}
+	if jwt_token != "" {
+		token, err := jwt.ParseWithClaims(jwt_token, claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte(TEMP_ACCESS_SECRET), nil
+		})
+		if err != nil || !token.Valid {
+			w.WriteHeader(http.StatusBadRequest)
+		} else {
+			for key, val := range claims {
+				fmt.Println(key)
+				fmt.Println(val)
+			}
+
+		}
+	} else {
+		fmt.Println("hello")
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/auth/{code}", authorize).Methods(http.MethodGet)
-
+	router.HandleFunc("/data", getData).Methods(http.MethodGet)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
