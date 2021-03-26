@@ -2,17 +2,21 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 	"github.com/rs/cors"
+	"github.com/sirupsen/logrus"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"time"
 )
+
+var logger *logrus.Logger
 
 const (
 	CODE = "code"
@@ -177,7 +181,24 @@ func refresh(w http.ResponseWriter, r *http.Request) {
 	sendJwt(refresh_token,w)
 }
 
+func initLogger() {
+	customFormatter := new(logrus.TextFormatter)
+	customFormatter.TimestampFormat = "2006-01-02 15:04:05"
+	logger = logrus.New()
+	logger.SetFormatter(&logrus.TextFormatter{})
+	logger.SetFormatter(customFormatter)
+	path, _ := os.Getwd()
+	logFile, err := os.OpenFile(path + "/logs/logs.txt", os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0755)
+	if err == nil {
+		logger.SetOutput(io.MultiWriter(os.Stderr, logFile))
+	} else {
+		logger.Error("error trying to initialize log file.")
+	}
+}
+
 func main() {
+	initLogger()
+	addr := "127.0.0.1:5000"
 	router := mux.NewRouter()
 	router.HandleFunc("/auth/{code}", authorize).Methods(http.MethodGet)
 	router.HandleFunc("/data", getData).Methods(http.MethodPost)
@@ -189,8 +210,9 @@ func main() {
 	})
 
 	corsHandler := c.Handler(router)
-	server := &http.Server{Handler: corsHandler, Addr: "127.0.0.1:5000",WriteTimeout: 15*time.Second,
+	server := &http.Server{Handler: corsHandler, Addr: addr,WriteTimeout: 15*time.Second,
 		ReadTimeout: 15*time.Second}
-	fmt.Println("unwrapped.live server running on port 5000.")
+	logger.Info("Starting unwrapped-live server on address " + addr)
 	log.Fatal(server.ListenAndServe())
+
 }

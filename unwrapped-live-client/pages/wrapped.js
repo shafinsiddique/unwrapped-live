@@ -10,7 +10,6 @@ export default class WrappedPage extends React.Component {
             headers:{"Content-Type":"application/json"}}).then(response => response.json()).then(data => {
                 console.log(data)
             }).catch(() => {
-                console.log("hello")
             })
 
             // var request = new Request(API_GET_DATA, {method:"GET",headers: {

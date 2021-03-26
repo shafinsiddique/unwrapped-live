@@ -13,7 +13,7 @@ export default class HomePage extends React.Component {
 
     onConnectButtonClick(e){
         window.location.href =
-            `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
+            `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=user-top-read`
     }
 
     render() {
