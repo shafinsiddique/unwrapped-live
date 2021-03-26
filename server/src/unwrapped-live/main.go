@@ -82,8 +82,7 @@ func getAccessToken(code string) (*AuthResponse, int,  error) {
 	return getAuthResponse(resp), resp.StatusCode, nil
 }
 
-func authorize(w http.ResponseWriter, r *http.Request) {
-	code, _ := mux.Vars(r)["code"]
+func sendJwt(code string, w http.ResponseWriter) {
 	token, status, err := getAccessToken(code)
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
@@ -93,6 +92,11 @@ func authorize(w http.ResponseWriter, r *http.Request) {
 		jwtToken := getJwt(token)
 		sendJson(w, map[string]string{JWT:jwtToken})
 	}
+}
+
+func authorize(w http.ResponseWriter, r *http.Request) {
+	code, _ := mux.Vars(r)["code"]
+	sendJwt(code, w)
 }
 
 func tryParseJwt(r *http.Request) (jwt.MapClaims, error) {
@@ -170,10 +174,7 @@ func refresh(w http.ResponseWriter, r *http.Request) {
 	}
 
 	refresh_token := claims[REFRESH_TOKEN].(string)
-
-
-
-
+	sendJwt(refresh_token,w)
 }
 
 func main() {
