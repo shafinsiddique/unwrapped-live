@@ -32,6 +32,9 @@ const TEMP_ACCESS_SECRET = "my-oauth-secret-secure-123" // will change after swi
 const APPLICATION_JSON = "application/json"
 const JWT = "jwt"
 const SPOTIFY_API_BASE = "https://api.spotify.com/v1"
+const SCOPE = "scope"
+const SCOPES_ALLOWED = "user-top-read"
+
 func getAuthResponse(rawResponse *http.Response) *AuthResponse {
 	decoder := json.NewDecoder(rawResponse.Body)
 	authResponse := &AuthResponse{ }
@@ -103,16 +106,16 @@ func tryGetDataFromSpotify(url string, token string) (*http.Response, error) {
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 	req.Header.Add("Authorization","Bearer " + token)
 	resp, err := client.Do(req)
-
 	return resp, err
-
 }
+
 func getData(w http.ResponseWriter, r *http.Request){
 	claims, err := tryParseJwt(r)
 	if err != nil || claims == nil {
 		w.WriteHeader(http.StatusBadRequest)
 	} else{
-		resp, _ := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me",claims[ACCESS_TOKEN].(string))
+		resp, err := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me/top/artists",claims[ACCESS_TOKEN].(string))
+		fmt.Println(err)
 		respBody(resp)
 	}
 
