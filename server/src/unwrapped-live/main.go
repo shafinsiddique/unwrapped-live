@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"github.com/pkg/errors"
 	"github.com/rs/cors"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -14,26 +14,31 @@ import (
 	"time"
 )
 
-const CODE = "code"
-const CLIENT_ID = "0fcccb78740a42dab96c20f4ebb9dbae"
-const CLIENT_SECRET = "90a72ac119f14b7994b7ed4bb77373bc" // RESET, AND SWITCH TOS ECURE FORM AFTER.
-const EXCHANGE_TOKEN_LINK = "https://accounts.spotify.com/api/token"
-const CONTENT_TYPE_FORM_ENCODED = "application/x-www-form-urlencoded"
-const GRANT_TYPE = "grant_type"
-const AUTHORIZATION_CODE = "authorization_code"
-const REDIRECT_URI_PARAM = "redirect_uri"
-const REDIRECT_URI = "http://localhost:3000/redirect"
-const CONTENT_TYPE_HEADER = "Content-Type"
-const CLIENT_ID_KEY = "client_id"
-const CLIENT_SECRET_KEY = "client_secret"
-const ACCESS_TOKEN = "access_token"
-const REFRESH_TOKEN = "refresh_token"
-const TEMP_ACCESS_SECRET = "my-oauth-secret-secure-123" // will change after swithcin gto env file.
-const APPLICATION_JSON = "application/json"
-const JWT = "jwt"
-const SPOTIFY_API_BASE = "https://api.spotify.com/v1"
-const SCOPE = "scope"
-const SCOPES_ALLOWED = "user-top-read"
+const (
+	CODE = "code"
+	CLIENT_ID = "0fcccb78740a42dab96c20f4ebb9dbae"
+	CLIENT_SECRET = "90a72ac119f14b7994b7ed4bb77373bc" // RESET, AND SWITCH TOS ECURE FORM AFTER.
+	EXCHANGE_TOKEN_LINK = "https://accounts.spotify.com/api/token"
+	CONTENT_TYPE_FORM_ENCODED = "application/x-www-form-urlencoded"
+	GRANT_TYPE = "grant_type"
+	AUTHORIZATION_CODE = "authorization_code"
+	REDIRECT_URI_PARAM = "redirect_uri"
+	REDIRECT_URI = "http://localhost:3000/redirect"
+	CONTENT_TYPE_HEADER = "Content-Type"
+	CLIENT_ID_KEY = "client_id"
+	CLIENT_SECRET_KEY = "client_secret"
+	ACCESS_TOKEN = "access_token"
+	REFRESH_TOKEN = "refresh_token"
+	TEMP_ACCESS_SECRET = "my-oauth-secret-secure-123" // will change after swithcin gto env file.
+	APPLICATION_JSON = "application/json"
+	JWT = "jwt"
+	SPOTIFY_API_BASE = "https://api.spotify.com/v1"
+	PROFILE = "profile"
+	PERSONALIZATION = "personalization"
+	TRACKS = "tracks"
+	ARTISTS = "artists"
+	RESPONSE_LIMIT = "5"
+)
 
 func getAuthResponse(rawResponse *http.Response) *AuthResponse {
 	decoder := json.NewDecoder(rawResponse.Body)
@@ -51,10 +56,6 @@ func getJwt(authResponse *AuthResponse) string {
 	return tokenStr
 }
 
-func respBody(response *http.Response){
-	body, _ := ioutil.ReadAll(response.Body)
-	fmt.Println(string(body))
-}
 func sendJson(w http.ResponseWriter, data interface{}) {
 	jsonData, _ := json.Marshal(data)
 	w.Header().Set(CONTENT_TYPE_HEADER, APPLICATION_JSON)
@@ -87,39 +88,69 @@ func tryParseJwt(r *http.Request) (jwt.MapClaims, error) {
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
 		return nil, err
-	} else {
-		jwt_token := body.Jwt
-		claims := jwt.MapClaims{}
-		token, err := jwt.ParseWithClaims(jwt_token, claims, func(token *jwt.Token) (interface{}, error) {
+	} else if body.Jwt == "" {
+		return nil, errors.New("missing required field 'jwt'")
+	}else {
+			jwt_token := body.Jwt
+			claims := jwt.MapClaims{}
+			token, err := jwt.ParseWithClaims(jwt_token, claims, func(token *jwt.Token) (interface{}, error) {
 			return []byte(TEMP_ACCESS_SECRET), nil
 		})
-		if err != nil || !token.Valid {
+			if err != nil || !token.Valid {
 			return nil, err
 		} else {
 			return claims, nil
 		}
-	}
+		}
 }
 
-func tryGetDataFromSpotify(url string, token string) (*http.Response, error) {
+
+func tryGetDataFromSpotify(url string, token string) (map[string]interface{},int,  error) {
 	client := &http.Client{}
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 	req.Header.Add("Authorization","Bearer " + token)
-	resp, err := client.Do(req)
-	return resp, err
+	resp, err := client.Do(req) // only possible error should be networkl connectivity problems, send a internal
+	// server error to client.
+	if err != nil {
+		return nil, 0, err
+	}
+
+	var response_map map[string]interface{}
+	_ = json.NewDecoder(resp.Body).Decode(&response_map) // can ignore error as spotify will send valid json.
+
+	return response_map, resp.StatusCode, nil
 }
 
-func getData(w http.ResponseWriter, r *http.Request){
+func getData(w http.ResponseWriter, r *http.Request) {
 	claims, err := tryParseJwt(r)
 	if err != nil || claims == nil {
 		w.WriteHeader(http.StatusBadRequest)
 	} else{
-		resp, err := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me/top/artists",claims[ACCESS_TOKEN].(string))
-		fmt.Println(err)
-		respBody(resp)
+		accessToken := claims[ACCESS_TOKEN].(string)
+		profile, stat1, err1 := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me", accessToken)
+		artists, stat2, err2 := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me/top/artists?limit="+RESPONSE_LIMIT,
+			accessToken)
+		tracks, stat3, err3 := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me/top/tracks?limit="+RESPONSE_LIMIT,
+			accessToken)
+
+		if err1 != nil || err2 != nil || err3 != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		} else if stat1 != http.StatusOK  {
+			w.WriteHeader(stat1)
+		} else if stat2 != http.StatusOK {
+			w.WriteHeader(stat2)
+		} else if stat3 != http.StatusOK {
+			w.WriteHeader(stat3)
+		} else {
+			data := map[string]map[string]interface{}{PROFILE:profile,
+				PERSONALIZATION:{TRACKS:tracks, ARTISTS:artists}}
+			items := data[PERSONALIZATION][TRACKS].(map[string]interface{})["limit"]
+			fmt.Println(items)
+			//fmt.Println(tracks)
+			//fmt.Println(data)
+			sendJson(w, data)
+		}
 	}
-
-
 }
 
 func main() {
