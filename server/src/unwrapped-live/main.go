@@ -43,7 +43,7 @@ const (
 func getAuthResponse(rawResponse *http.Response) *AuthResponse {
 	decoder := json.NewDecoder(rawResponse.Body)
 	authResponse := &AuthResponse{ }
-	decoder.Decode(authResponse)
+	decoder.Decode(authResponse) // can ignore error cause Spotify API will send it in this format.
 	return authResponse
 }
 
@@ -63,23 +63,35 @@ func sendJson(w http.ResponseWriter, data interface{}) {
 
 }
 
-func authorize(w http.ResponseWriter, r *http.Request) {
-	code, _:= mux.Vars(r)["code"]
+func getAccessToken(code string) (*AuthResponse, int,  error) {
 	data := url.Values{}
 	data.Set(GRANT_TYPE, AUTHORIZATION_CODE)
 	data.Set(CODE, code)
 	data.Set(REDIRECT_URI_PARAM, REDIRECT_URI)
 	data.Set(CLIENT_ID_KEY, CLIENT_ID)
 	data.Set(CLIENT_SECRET_KEY, CLIENT_SECRET)
-	resp, _ := http.Post(EXCHANGE_TOKEN_LINK, CONTENT_TYPE_FORM_ENCODED, strings.NewReader(data.Encode()))
-	if resp.StatusCode == 200 {
-		response_obj := getAuthResponse(resp)
-		fmt.Println(response_obj.AccessToken)
-		fmt.Println(response_obj.RefreshToken)
-		jwtToken :=  getJwt(response_obj)
-		sendJson(w, map[string]string{JWT:jwtToken})
+
+	resp, err := http.Post(EXCHANGE_TOKEN_LINK, CONTENT_TYPE_FORM_ENCODED, strings.NewReader(data.Encode()))
+	// oinly errror should be network connectivity, send service unavailable.
+	if err != nil {
+		return nil, 0, err
+	} else if resp.StatusCode != http.StatusOK {
+		return nil, resp.StatusCode, nil
+	}
+
+	return getAuthResponse(resp), resp.StatusCode, nil
+}
+
+func authorize(w http.ResponseWriter, r *http.Request) {
+	code, _ := mux.Vars(r)["code"]
+	token, status, err := getAccessToken(code)
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+	} else if status != http.StatusOK {
+		w.WriteHeader(status)
 	} else {
-		w.WriteHeader(resp.StatusCode)
+		jwtToken := getJwt(token)
+		sendJson(w, map[string]string{JWT:jwtToken})
 	}
 }
 
@@ -151,11 +163,24 @@ func getData(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func refresh(w http.ResponseWriter, r *http.Request) {
+	claims, err := tryParseJwt(r)
+	if err != nil || claims == nil {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	refresh_token := claims[REFRESH_TOKEN].(string)
+
+
+
+
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/auth/{code}", authorize).Methods(http.MethodGet)
 	router.HandleFunc("/data", getData).Methods(http.MethodPost)
-
+	router.HandleFunc("/refresh",refresh).Methods(http.MethodPost)
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{http.MethodGet, http.MethodPost},
