@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
-	"github.com/rs/cors"
 )
 
 const CODE = "code"
@@ -69,6 +69,8 @@ func authorize(w http.ResponseWriter, r *http.Request) {
 	resp, _ := http.Post(EXCHANGE_TOKEN_LINK, CONTENT_TYPE_FORM_ENCODED, strings.NewReader(data.Encode()))
 	if resp.StatusCode == 200 {
 		response_obj := getAuthResponse(resp)
+		fmt.Println(response_obj.AccessToken)
+		fmt.Println(response_obj.RefreshToken)
 		jwtToken :=  getJwt(response_obj)
 		sendJson(w, map[string]string{JWT:jwtToken})
 	} else {
@@ -77,13 +79,13 @@ func authorize(w http.ResponseWriter, r *http.Request) {
 }
 
 func getData(w http.ResponseWriter, r *http.Request){
-	jwt_token := r.Header.Get(AUTHORIZATION_HEADER)
-	for k, v := range r.Header {
-		fmt.Println(k + ":" + v[0])
-	}
-	fmt.Println(jwt_token)
-	claims := jwt.MapClaims{}
-	if jwt_token != "" {
+	body := &JWTBody{}
+	err := json.NewDecoder(r.Body).Decode(&body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	} else {
+		jwt_token := body.Jwt
+		claims := jwt.MapClaims{}
 		token, err := jwt.ParseWithClaims(jwt_token, claims, func(token *jwt.Token) (interface{}, error) {
 			return []byte(TEMP_ACCESS_SECRET), nil
 		})
@@ -94,19 +96,17 @@ func getData(w http.ResponseWriter, r *http.Request){
 				fmt.Println(key)
 				fmt.Println(val)
 			}
-
 		}
-	} else {
-		fmt.Println("hello")
-		w.WriteHeader(http.StatusBadRequest)
 	}
+
+
 
 }
 
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/auth/{code}", authorize).Methods(http.MethodGet)
-	router.HandleFunc("/data", getData).Methods(http.MethodGet)
+	router.HandleFunc("/data", getData).Methods(http.MethodPost)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
