@@ -44,6 +44,11 @@ const (
 	RESPONSE_LIMIT = "5"
 )
 
+func logRequest(r *http.Request)  {
+	logger.WithFields(logrus.Fields{"ip":r.RemoteAddr, "method":r.Method, "host":r.Host,
+		"url":r.URL}).Info("")
+}
+
 func getAuthResponse(rawResponse *http.Response) *AuthResponse {
 	decoder := json.NewDecoder(rawResponse.Body)
 	authResponse := &AuthResponse{ }
@@ -99,6 +104,7 @@ func sendJwt(code string, w http.ResponseWriter) {
 }
 
 func authorize(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
 	code, _ := mux.Vars(r)["code"]
 	sendJwt(code, w)
 }
@@ -142,6 +148,7 @@ func tryGetDataFromSpotify(url string, token string) (map[string]interface{},int
 }
 
 func getData(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
 	claims, err := tryParseJwt(r)
 	if err != nil || claims == nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -172,6 +179,7 @@ func getData(w http.ResponseWriter, r *http.Request) {
 }
 
 func refresh(w http.ResponseWriter, r *http.Request) {
+	logRequest(r)
 	claims, err := tryParseJwt(r)
 	if err != nil || claims == nil {
 		w.WriteHeader(http.StatusBadRequest)
