@@ -6,6 +6,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -23,7 +24,6 @@ const AUTHORIZATION_CODE = "authorization_code"
 const REDIRECT_URI_PARAM = "redirect_uri"
 const REDIRECT_URI = "http://localhost:3000/redirect"
 const CONTENT_TYPE_HEADER = "Content-Type"
-const AUTHORIZATION_HEADER = "Authorization"
 const CLIENT_ID_KEY = "client_id"
 const CLIENT_SECRET_KEY = "client_secret"
 const ACCESS_TOKEN = "access_token"
@@ -31,7 +31,7 @@ const REFRESH_TOKEN = "refresh_token"
 const TEMP_ACCESS_SECRET = "my-oauth-secret-secure-123" // will change after swithcin gto env file.
 const APPLICATION_JSON = "application/json"
 const JWT = "jwt"
-
+const SPOTIFY_API_BASE = "https://api.spotify.com/v1"
 func getAuthResponse(rawResponse *http.Response) *AuthResponse {
 	decoder := json.NewDecoder(rawResponse.Body)
 	authResponse := &AuthResponse{ }
@@ -48,6 +48,10 @@ func getJwt(authResponse *AuthResponse) string {
 	return tokenStr
 }
 
+func respBody(response *http.Response){
+	body, _ := ioutil.ReadAll(response.Body)
+	fmt.Println(string(body))
+}
 func sendJson(w http.ResponseWriter, data interface{}) {
 	jsonData, _ := json.Marshal(data)
 	w.Header().Set(CONTENT_TYPE_HEADER, APPLICATION_JSON)
@@ -56,9 +60,6 @@ func sendJson(w http.ResponseWriter, data interface{}) {
 }
 
 func authorize(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request Received")
-
-
 	code, _:= mux.Vars(r)["code"]
 	data := url.Values{}
 	data.Set(GRANT_TYPE, AUTHORIZATION_CODE)
@@ -78,11 +79,11 @@ func authorize(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getData(w http.ResponseWriter, r *http.Request){
+func tryParseJwt(r *http.Request) (jwt.MapClaims, error) {
 	body := &JWTBody{}
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		return nil, err
 	} else {
 		jwt_token := body.Jwt
 		claims := jwt.MapClaims{}
@@ -90,15 +91,30 @@ func getData(w http.ResponseWriter, r *http.Request){
 			return []byte(TEMP_ACCESS_SECRET), nil
 		})
 		if err != nil || !token.Valid {
-			w.WriteHeader(http.StatusBadRequest)
+			return nil, err
 		} else {
-			for key, val := range claims {
-				fmt.Println(key)
-				fmt.Println(val)
-			}
+			return claims, nil
 		}
 	}
+}
 
+func tryGetDataFromSpotify(url string, token string) (*http.Response, error) {
+	client := &http.Client{}
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+	req.Header.Add("Authorization","Bearer " + token)
+	resp, err := client.Do(req)
+
+	return resp, err
+
+}
+func getData(w http.ResponseWriter, r *http.Request){
+	claims, err := tryParseJwt(r)
+	if err != nil || claims == nil {
+		w.WriteHeader(http.StatusBadRequest)
+	} else{
+		resp, _ := tryGetDataFromSpotify(SPOTIFY_API_BASE + "/me",claims[ACCESS_TOKEN].(string))
+		respBody(resp)
+	}
 
 
 }

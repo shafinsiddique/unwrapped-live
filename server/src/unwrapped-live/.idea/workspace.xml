@@ -20,12 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40e4d732-8b0c-44ed-9db8-429ef6fa94f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/JWTBody.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthorizationResponse.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthorizationResponse.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,21 +89,21 @@
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
     <state x="-1560" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616689546480" />
-    <state width="2006" height="314" key="GridCell.Tab.0.bottom" timestamp="1616730470685">
+    <state width="2006" height="314" key="GridCell.Tab.0.bottom" timestamp="1616732513618">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="314" key="GridCell.Tab.0.bottom/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616730470685" />
-    <state width="2006" height="314" key="GridCell.Tab.0.center" timestamp="1616730470684">
+    <state width="2006" height="314" key="GridCell.Tab.0.bottom/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616732513618" />
+    <state width="2006" height="314" key="GridCell.Tab.0.center" timestamp="1616732513617">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="314" key="GridCell.Tab.0.center/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616730470684" />
-    <state width="2006" height="314" key="GridCell.Tab.0.left" timestamp="1616730470684">
+    <state width="2006" height="314" key="GridCell.Tab.0.center/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616732513617" />
+    <state width="2006" height="314" key="GridCell.Tab.0.left" timestamp="1616732513616">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="314" key="GridCell.Tab.0.left/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616730470684" />
-    <state width="2006" height="314" key="GridCell.Tab.0.right" timestamp="1616730470685">
+    <state width="2006" height="314" key="GridCell.Tab.0.left/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616732513616" />
+    <state width="2006" height="314" key="GridCell.Tab.0.right" timestamp="1616732513617">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="314" key="GridCell.Tab.0.right/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616730470685" />
+    <state width="2006" height="314" key="GridCell.Tab.0.right/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616732513617" />
   </component>
 </project>
