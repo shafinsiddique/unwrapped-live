@@ -142,12 +142,10 @@ func getData(w http.ResponseWriter, r *http.Request) {
 		} else if stat3 != http.StatusOK {
 			w.WriteHeader(stat3)
 		} else {
+			tracksList := tracks["items"]
+			artistsList := artists["items"]
 			data := map[string]map[string]interface{}{PROFILE:profile,
-				PERSONALIZATION:{TRACKS:tracks, ARTISTS:artists}}
-			items := data[PERSONALIZATION][TRACKS].(map[string]interface{})["limit"]
-			fmt.Println(items)
-			//fmt.Println(tracks)
-			//fmt.Println(data)
+				PERSONALIZATION:{TRACKS:tracksList, ARTISTS:artistsList}}
 			sendJson(w, data)
 		}
 	}
