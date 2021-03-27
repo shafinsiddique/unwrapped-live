@@ -8,7 +8,7 @@ import {
     CONTENT_TYPE,
     APPLICATION_JSON,
     API_REFRESH,
-    WRAPPED
+    WRAPPED, PERSONALIZATION, TRACKS, ALBUM, IMAGES
 } from '../components/consts'
 import styles from '../styles/Wrapped.module.css'
 import Navbar from "../components/Navbar";
@@ -26,7 +26,6 @@ export default class Wrapped extends React.Component {
             headers:{"Content-Type":"application/json"}}).then(response => response.json()).then(data => {
                 var state = {data:data}
                 this.setState(state)
-                console.log(data)
 
             }).catch(() => {
                 fetch(API_REFRESH, {body: JSON.stringify({"jwt":jwt_token}), method:"POST",
@@ -56,10 +55,32 @@ export default class Wrapped extends React.Component {
     }
 
     getTrackListings() {
+        var listings = []
+        if (this.state.data[PERSONALIZATION]) {
+            var tracks = this.state.data[PERSONALIZATION][TRACKS]
+            tracks.forEach((track, i) => {
+                console.log(track)
+                var listing_style = i == 0 ? styles.listing : styles.listing + " " + styles.listingPadding
+                var listing = <div className={listing_style}>
+                    <div className={styles.imgBox + " " + styles.imgButton}>
+                        <img src={track[ALBUM][IMAGES][1]["url"]} class={styles.trackImg}/>
+                    </div>
+                    <span className={styles.songName}>
 
+                    </span>
+                    <span className={styles.artistName}>
+
+                    </span>
+                </div>
+                listings.push(listing)
+            })
+
+            return listings
+        }
     }
 
     render() {
+        this.getTrackListings()
         return <div className={styles.wrappedContainer}>
             <Navbar/>
             <div>
@@ -68,14 +89,7 @@ export default class Wrapped extends React.Component {
                         Your Top Tracks
                     </span>
                     <div className={styles.tracksRow + " " + styles.topTracksPadding}>
-                        <div className={styles.listing}>
-                            <div className={styles.imgBox + " " + styles.imgButton}>
-
-                            </div>
-                            <span className={styles.songName}>
-
-                            </span>
-                        </div>
+                        {this.getTrackListings()}
                     </div>
                 </div>
             </div>

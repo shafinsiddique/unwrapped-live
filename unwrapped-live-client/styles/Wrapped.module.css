@@ -26,3 +26,48 @@
     color: white;
     font-size: 30px;
 }
+
+.listing {
+    display: flex;
+    flex-direction: column;
+}
+
+.listingPadding {
+    padding-left: 30px;
+}
+
+.songName {
+    color: white;
+    font-family: 'Montserrat-Semi-Bold',serif;
+    font-size: 13px;
+}
+
+.artistName {
+    font-family: 'Montserrat-Regular',serif;
+    font-size: 10px;
+    color: #D3D3D3;
+
+}
+
+.imgBox {
+    width: 200px;
+    height: 200px;
+}
+
+.imgButton {
+    cursor: pointer;
+}
+
+.trackImg {
+    width: 100%;
+    height: 100%;
+}
+
+.tracksRow {
+    display: flex;
+    align-items: center;
+}
+
+.topTracksPadding {
+    padding-top: 30px;
+}

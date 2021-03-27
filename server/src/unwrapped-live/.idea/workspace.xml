@@ -20,14 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40e4d732-8b0c-44ed-9db8-429ef6fa94f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/Wrapped.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/logs.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,22 +92,22 @@
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
     <state x="-1175" y="210" key="EnvironmentVariablesDialog/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616788394771" />
-    <state width="2006" height="216" key="GridCell.Tab.0.bottom" timestamp="1616825452966">
+    <state width="2006" height="216" key="GridCell.Tab.0.bottom" timestamp="1616825774469">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="216" key="GridCell.Tab.0.bottom/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825452966" />
-    <state width="2006" height="216" key="GridCell.Tab.0.center" timestamp="1616825452965">
+    <state width="2006" height="216" key="GridCell.Tab.0.bottom/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825774469" />
+    <state width="2006" height="216" key="GridCell.Tab.0.center" timestamp="1616825774468">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="216" key="GridCell.Tab.0.center/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825452965" />
-    <state width="2006" height="216" key="GridCell.Tab.0.left" timestamp="1616825452965">
+    <state width="2006" height="216" key="GridCell.Tab.0.center/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825774468" />
+    <state width="2006" height="216" key="GridCell.Tab.0.left" timestamp="1616825774467">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="216" key="GridCell.Tab.0.left/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825452965" />
-    <state width="2006" height="216" key="GridCell.Tab.0.right" timestamp="1616825452966">
+    <state width="2006" height="216" key="GridCell.Tab.0.left/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825774467" />
+    <state width="2006" height="216" key="GridCell.Tab.0.right" timestamp="1616825774469">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
-    <state width="2006" height="216" key="GridCell.Tab.0.right/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825452966" />
+    <state width="2006" height="216" key="GridCell.Tab.0.right/-3488.331.1440.877/0.23.1920.967/-2048.-86.2048.1129@-2048.-86.2048.1129" timestamp="1616825774469" />
     <state x="-1232" y="399" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1616733168954">
       <screen x="-2048" y="-86" width="2048" height="1129" />
     </state>
