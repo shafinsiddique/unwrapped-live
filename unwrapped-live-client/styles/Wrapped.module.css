@@ -69,3 +69,23 @@
 .secondHeaderPadding {
     padding-top: 70px;
 }
+
+@media (max-width: 1200px) {
+    .summaryContainer {
+        text-align: center;
+    }
+    .tracksRow {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .listingPadding {
+        padding-left: 0px;
+        padding-top: 40px;
+    }
+
+    .wrappedHeadingDisplay {
+        display: none;
+    }
+
+}

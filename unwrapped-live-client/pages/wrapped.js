@@ -1,18 +1,24 @@
 import React from 'react'
 import {
-    HOME,
-    JWT_KEY,
+    ALBUM,
     API_GET_DATA,
-    POST,
-    JWT,
-    CONTENT_TYPE,
-    APPLICATION_JSON,
     API_REFRESH,
-    WRAPPED, PERSONALIZATION, TRACKS, ALBUM, IMAGES, ARTISTS, NAME
+    ARTISTS,
+    DISPLAY_NAME,
+    IMAGES,
+    JWT_KEY,
+    NAME,
+    PERSONALIZATION,
+    POST,
+    PROFILE,
+    TRACKS,
+    WRAPPED
 } from '../components/consts'
 import styles from '../styles/Wrapped.module.css'
 import Navbar from "../components/Navbar";
 import Head from 'next/head'
+import SpotifyButton from "../components/SpotifyButton";
+
 export default class Wrapped extends React.Component {
     constructor(props) {
         super(props)
@@ -102,9 +108,21 @@ export default class Wrapped extends React.Component {
 
     }
 
+    getName() {
+        const defaultName = "Your"
+        if (this.state.data[PERSONALIZATION]) {
+            var name = this.state.data[PROFILE][DISPLAY_NAME]
+            return name == null || name == "null" ? defaultName : name + "'s"
+        }
+
+        return defaultName
+
+    }
+
     render() {
         this.getTrackListings()
         const tracksRowStyle =  styles.tracksRow +  " " + styles.topTracksPadding
+        var name = this.getName()
         return <html>
         <Head>
             <title>My Wrapped</title>
@@ -115,17 +133,27 @@ export default class Wrapped extends React.Component {
             <div>
                 <div className={styles.summaryContainer}>
                     <span className={styles.summaryTableHeader}>
-                        Your Top Artists
-                    </span>
-                    <div className={tracksRowStyle}>
-                        {this.getArtistListings()}
-                    </div>
-                    <span className={styles.summaryTableHeader + " " + styles.secondHeaderPadding}>
-                        Your Top Tracks
+                        {name + " Top Tracks"}
+
+                        {/*Your Top Tracks*/}
                     </span>
                     <div className={tracksRowStyle}>
                         {this.getTrackListings()}
                     </div>
+
+                    <span className={styles.summaryTableHeader  + " " + styles.secondHeaderPadding}>
+                        {name + " Top Artists"}
+                        {/*Your Top Artists*/}
+                    </span>
+                    <div className={tracksRowStyle}>
+                        {this.getArtistListings()}
+                    </div>
+                    <div style={{"paddingTop":"50px"}}>
+                        <SpotifyButton>
+                            Log Out
+                        </SpotifyButton>
+                    </div>
+
 
                 </div>
             </div>

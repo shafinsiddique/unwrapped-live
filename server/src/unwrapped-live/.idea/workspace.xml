@@ -23,6 +23,7 @@
       <change beforePath="$PROJECT_DIR$/../../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/logs.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/Wrapped.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/Wrapped.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
