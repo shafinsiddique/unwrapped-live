@@ -12,7 +12,7 @@ import {
 } from '../components/consts'
 import styles from '../styles/Wrapped.module.css'
 import Navbar from "../components/Navbar";
-
+import Head from 'next/head'
 export default class Wrapped extends React.Component {
     constructor(props) {
         super(props)
@@ -59,17 +59,17 @@ export default class Wrapped extends React.Component {
         if (this.state.data[PERSONALIZATION]) {
             var tracks = this.state.data[PERSONALIZATION][TRACKS]
             tracks.forEach((track, i) => {
-                console.log(track)
                 var listing_style = i == 0 ? styles.listing : styles.listing + " " + styles.listingPadding
                 var listing = <div className={listing_style} key={"track-"+i}>
                     <div className={styles.imgBox + " " + styles.imgButton}>
                         <img src={track[ALBUM][IMAGES][1]["url"]} className={styles.trackImg}/>
                     </div>
                     <span className={styles.songName} style={{"paddingTop":"10px"}}>
-                        {track[ARTISTS][0][NAME]}
-                    </span>
-                    <span className={styles.artistName} style={{"paddingTop":"6px"}}>
                         {track[NAME]}
+
+                    </span>
+                    <span className={styles.artistName} style={{"paddingTop":"5px"}}>
+                      {track[ARTISTS][0][NAME]}
                     </span>
                 </div>
                 listings.push(listing)
@@ -79,20 +79,58 @@ export default class Wrapped extends React.Component {
         }
     }
 
+    getArtistListings() {
+        var listings = []
+        if (this.state.data[PERSONALIZATION]) {
+            var artists = this.state.data[PERSONALIZATION][ARTISTS]
+            artists.forEach((artist, i) => {
+                console.log(artist)
+                var listing_style = i == 0 ? styles.listing : styles.listing + " " + styles.listingPadding
+                var listing = <div className={listing_style} key={"track-"+i}>
+                    <div className={styles.imgBox + " " + styles.imgButton}>
+                        <img src={artist[IMAGES][1]["url"]} className={styles.trackImg}/>
+                    </div>
+                    <span className={styles.songName} style={{"paddingTop":"10px"}}>
+                        {artist[NAME]}
+                    </span>
+                </div>
+                listings.push(listing)
+            })
+
+            return listings
+        }
+
+    }
+
     render() {
         this.getTrackListings()
-        return <div className={styles.wrappedContainer}>
+        const tracksRowStyle =  styles.tracksRow +  " " + styles.topTracksPadding
+        return <html>
+        <Head>
+            <title>My Wrapped</title>
+        </Head>
+        <body style={{"backgroundColor":"black"}}>
+        <div className={styles.wrappedContainer}>
             <Navbar/>
             <div>
                 <div className={styles.summaryContainer}>
                     <span className={styles.summaryTableHeader}>
+                        Your Top Artists
+                    </span>
+                    <div className={tracksRowStyle}>
+                        {this.getArtistListings()}
+                    </div>
+                    <span className={styles.summaryTableHeader + " " + styles.secondHeaderPadding}>
                         Your Top Tracks
                     </span>
-                    <div className={styles.tracksRow + " " + styles.topTracksPadding}>
+                    <div className={tracksRowStyle}>
                         {this.getTrackListings()}
                     </div>
+
                 </div>
             </div>
         </div>
+        </body>
+        </html>
     }
 }
