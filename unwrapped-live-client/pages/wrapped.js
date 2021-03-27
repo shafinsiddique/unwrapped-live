@@ -8,7 +8,7 @@ import {
     CONTENT_TYPE,
     APPLICATION_JSON,
     API_REFRESH,
-    WRAPPED, PERSONALIZATION, TRACKS, ALBUM, IMAGES
+    WRAPPED, PERSONALIZATION, TRACKS, ALBUM, IMAGES, ARTISTS, NAME
 } from '../components/consts'
 import styles from '../styles/Wrapped.module.css'
 import Navbar from "../components/Navbar";
@@ -61,15 +61,15 @@ export default class Wrapped extends React.Component {
             tracks.forEach((track, i) => {
                 console.log(track)
                 var listing_style = i == 0 ? styles.listing : styles.listing + " " + styles.listingPadding
-                var listing = <div className={listing_style}>
+                var listing = <div className={listing_style} key={"track-"+i}>
                     <div className={styles.imgBox + " " + styles.imgButton}>
-                        <img src={track[ALBUM][IMAGES][1]["url"]} class={styles.trackImg}/>
+                        <img src={track[ALBUM][IMAGES][1]["url"]} className={styles.trackImg}/>
                     </div>
-                    <span className={styles.songName}>
-
+                    <span className={styles.songName} style={{"paddingTop":"10px"}}>
+                        {track[ARTISTS][0][NAME]}
                     </span>
-                    <span className={styles.artistName}>
-
+                    <span className={styles.artistName} style={{"paddingTop":"6px"}}>
+                        {track[NAME]}
                     </span>
                 </div>
                 listings.push(listing)
