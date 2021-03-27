@@ -17,7 +17,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        return <div className="container">
+        return <div className="container gradient-bg">
             <Navbar/>
             <div>
                 <div className={styles.mainContentContainer + " " + styles.mainContentContainerPadding}>

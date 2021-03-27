@@ -35,6 +35,7 @@ html, body {
   left: 0;
   position: absolute;
   background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+
 }
 
 .navbar {

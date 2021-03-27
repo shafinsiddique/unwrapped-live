@@ -72,10 +72,14 @@ func sendJson(w http.ResponseWriter, data interface{}) {
 
 }
 
-func getAccessToken(code string) (*AuthResponse, int,  error) {
+func getAccessToken(code string, grantType string) (*AuthResponse, int,  error) {
 	data := url.Values{}
-	data.Set(GRANT_TYPE, AUTHORIZATION_CODE)
-	data.Set(CODE, code)
+	data.Set(GRANT_TYPE, grantType)
+	codeType := CODE
+	if grantType == REFRESH_TOKEN {
+		codeType = REFRESH_TOKEN
+	}
+	data.Set(codeType, code)
 	data.Set(REDIRECT_URI_PARAM, REDIRECT_URI)
 	data.Set(CLIENT_ID_KEY, CLIENT_ID)
 	data.Set(CLIENT_SECRET_KEY, CLIENT_SECRET)
@@ -88,11 +92,17 @@ func getAccessToken(code string) (*AuthResponse, int,  error) {
 		return nil, resp.StatusCode, nil
 	}
 
-	return getAuthResponse(resp), resp.StatusCode, nil
+	tokenObj := getAuthResponse(resp)
+
+	if grantType == REFRESH_TOKEN {
+		tokenObj.RefreshToken = code // if it is of type refresh token, the response doesnt send a new one
+		// so the refresh token field ends up getting cleared. we have to set it to the old one.
+	}
+	return tokenObj, resp.StatusCode, nil
 }
 
-func sendJwt(code string, w http.ResponseWriter) {
-	token, status, err := getAccessToken(code)
+func sendJwt(code string, grantType string, w http.ResponseWriter) {
+	token, status, err := getAccessToken(code, grantType)
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	} else if status != http.StatusOK {
@@ -106,7 +116,7 @@ func sendJwt(code string, w http.ResponseWriter) {
 func authorize(w http.ResponseWriter, r *http.Request) {
 	logRequest(r)
 	code, _ := mux.Vars(r)["code"]
-	sendJwt(code, w)
+	sendJwt(code, AUTHORIZATION_CODE, w)
 }
 
 func tryParseJwt(r *http.Request) (jwt.MapClaims, error) {
@@ -186,7 +196,7 @@ func refresh(w http.ResponseWriter, r *http.Request) {
 	}
 
 	refresh_token := claims[REFRESH_TOKEN].(string)
-	sendJwt(refresh_token,w)
+	sendJwt(refresh_token, REFRESH_TOKEN, w)
 }
 
 func initLogger() {
