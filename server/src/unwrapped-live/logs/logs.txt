@@ -146,3 +146,20 @@ time="2021-03-27 20:07:34" level=info host="localhost:5000" ip="127.0.0.1:55346"
 time="2021-03-27 20:07:34" level=info host="localhost:5000" ip="127.0.0.1:55346" method=POST url=/data
 time="2021-03-27 20:07:55" level=info host="localhost:5000" ip="127.0.0.1:55467" method=GET url=/auth/AQCrrVvWsd6Qaf2_DuDLd_M_6GJUz55gGCHaDZVUFR264087QurffXxjmqt0fovtzMRYlcWXy4IYzK_MD1FbIVEQEWqwyXas4EcaJQlk_FZzXss6HUBvIPhT96SteM7744RPfWDPFNOzoQPQr42SoW82oYyEE6u2goH8dqtE_b9Q42KYqdqBU_H5XvxZS8QdEw
 time="2021-03-27 20:07:56" level=info host="localhost:5000" ip="127.0.0.1:55467" method=POST url=/data
+time="2021-03-27 20:24:24" level=info msg="Starting unwrapped-live server on address 127.0.0.1:5000"
+time="2021-03-27 20:24:31" level=info host="localhost:5000" ip="127.0.0.1:55706" method=GET url=/auth/AQAS-hOBmbAc-gMjpr1mmlvYwcnvxaI6xG_67VmoabCmmpEfpN5r9tUyDY4R2v123BJGUQyqct9pIzY33ka50UI7lDzpKZhh9AXrE15fRVBH5SFjJjuoX2KiJxJSmOjLm6g3z2UcKRsll9DOm-zo2hND7mkp8iLiEjaClRXiHai97-rFTY0ht5asLUJOb3-1nw
+time="2021-03-27 20:24:31" level=info msg="Non 200 Response when trying to fetch access token." status code=503
+time="2021-03-27 20:24:45" level=info host="localhost:5000" ip="127.0.0.1:55706" method=GET url=/auth/AQAIj3o5iQXLM-TP_SOXDBsd4VF-OLysiFEyx0rGCYeJo4Oqe-oYlpiiVRp5gJNPjxzjxfzwEDdHfT2GsCkmQTP61FGpdlG5uU9Vvyj66xuN-QfUyseaIdaeDtfSz_F1GWMBoMyTx5nhPjdP0oRSe0xVz3fdWQSz2n7wDHVIeUL3EeRMOq_yLhvDJFd4J17hrA
+time="2021-03-27 20:24:46" level=info msg="Successfully fetched Access Token and responded with JWT."
+time="2021-03-27 20:24:46" level=info host="localhost:5000" ip="127.0.0.1:55706" method=POST url=/data
+time="2021-03-27 20:28:53" level=info msg="Starting unwrapped-live server on address 127.0.0.1:5000"
+time="2021-03-27 20:28:56" level=info host="localhost:5000" ip="127.0.0.1:55768" method=GET url=/auth/AQAsFL5xwPPztOqetU4LFe38MCWnt2ztW-g5oDHt12W6Y52qDD1tm9IUUo2OFH6iGzCMQcNuFTMyeDz6iVJtdokyTSYhNYE6fQMmNrL-ybkoAqbPjc6kssjlL4nS3u7pMsInSciEa9mn_m6QTftRqw227uhQ7wT9BrEIeagbw84h-B0idnSFHtmM_5R8_mFP3A
+time="2021-03-27 20:28:56" level=info msg="Attempting to fetch access token." grant_type=authorization_code
+time="2021-03-27 20:28:57" level=info msg="Successfully fetched Access Token and responded with JWT."
+time="2021-03-27 20:28:57" level=info host="localhost:5000" ip="127.0.0.1:55768" method=POST url=/data
+time="2021-03-27 20:35:45" level=info msg="Starting unwrapped-live server on address 127.0.0.1:5000"
+time="2021-03-27 20:35:48" level=info host="localhost:5000" ip="127.0.0.1:55825" method=GET url=/auth/AQAeylbRmJicRLfEFFqS3yUsvdO4Tuqs0EIS-T6FcBNBArbgrWlea1LKQ2kKyHTBDOIMWotGNX5ORD5grj0L4GycmE1_jSo6CRfHIL-awp60emDDyVRr3keZbUVl6ltWF0n0ia1phXAQ-2B5k76G-8xoHlDX2jIRJH7xVvlw0qhUxxrNq0wHTpMkliYYQoyn6w
+time="2021-03-27 20:35:48" level=info msg="Attempting to fetch access token." grant_type=authorization_code
+time="2021-03-27 20:35:48" level=info msg="Successfully fetched Access Token and responded with JWT."
+time="2021-03-27 20:35:49" level=info host="localhost:5000" ip="127.0.0.1:55825" method=POST url=/data
+time="2021-03-27 20:35:49" level=info msg="Successfully fetched all required data, responded to client."

@@ -73,6 +73,7 @@ func sendJson(w http.ResponseWriter, data interface{}) {
 }
 
 func getAccessToken(code string, grantType string) (*AuthResponse, int,  error) {
+	logger.WithFields(logrus.Fields{GRANT_TYPE:grantType}).Info("Attempting to fetch access token.")
 	data := url.Values{}
 	data.Set(GRANT_TYPE, grantType)
 	codeType := CODE
@@ -87,8 +88,13 @@ func getAccessToken(code string, grantType string) (*AuthResponse, int,  error) 
 	resp, err := http.Post(EXCHANGE_TOKEN_LINK, CONTENT_TYPE_FORM_ENCODED, strings.NewReader(data.Encode()))
 	// oinly errror should be network connectivity, send service unavailable.
 	if err != nil {
+		logger.Error("Error trying to get Access Token from Spotify. Check Network Connectivity.")
 		return nil, 0, err
 	} else if resp.StatusCode != http.StatusOK {
+		logger.WithFields(logrus.Fields{"status code":resp.StatusCode}).
+			Info("Non 200 Response when trying to " +
+			"fetch access token.")
+
 		return nil, resp.StatusCode, nil
 	}
 
@@ -104,12 +110,10 @@ func getAccessToken(code string, grantType string) (*AuthResponse, int,  error) 
 func sendJwt(code string, grantType string, w http.ResponseWriter) {
 	token, status, err := getAccessToken(code, grantType)
 	if err != nil {
-		logger.Error("Error trying to get Access Token from Spotify. Check Network Connectivity.")
 		w.WriteHeader(http.StatusServiceUnavailable)
 	} else if status != http.StatusOK {
 		w.WriteHeader(status)
-		logger.WithFields(logrus.Fields{"status code":status}).Info("Non 200 Response when trying to " +
-			"fetch access token.")
+
 	} else {
 		jwtToken := getJwt(token)
 		sendJson(w, map[string]string{JWT:jwtToken})
@@ -154,7 +158,7 @@ func tryGetDataFromSpotify(url string, token string) (map[string]interface{},int
 	resp, err := client.Do(req) // only possible error should be networkl connectivity problems, send a internal
 	// server error to client.
 	if err != nil {
-		logger.WithFields(logrus.Fields{"url":url}).Error("Error fetching data from Spotify.")
+		logger.WithFields(logrus.Fields{"url":url, "error":err}).Error(err)
 		return nil, 0, err
 	}
 
@@ -178,12 +182,21 @@ func getData(w http.ResponseWriter, r *http.Request) {
 			accessToken)
 
 		if err1 != nil || err2 != nil || err3 != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusServiceUnavailable)
 		} else if stat1 != http.StatusOK  {
+			logger.WithFields(logrus.Fields{"status_code":stat1, "type":PROFILE}).
+				Error("Non 200 Status Code when " +
+				"fetching data from spotify.")
 			w.WriteHeader(stat1)
 		} else if stat2 != http.StatusOK {
+			logger.WithFields(logrus.Fields{"status_code":stat2, "type":ARTISTS}).
+				Error("Non 200 Status Code when " +
+					"fetching data from spotify.")
 			w.WriteHeader(stat2)
 		} else if stat3 != http.StatusOK {
+			logger.WithFields(logrus.Fields{"status_code":stat3, "type":TRACKS}).
+				Error("Non 200 Status Code when " +
+					"fetching data from spotify.")
 			w.WriteHeader(stat3)
 		} else {
 			tracksList := tracks["items"]
@@ -191,6 +204,7 @@ func getData(w http.ResponseWriter, r *http.Request) {
 			data := map[string]map[string]interface{}{PROFILE:profile,
 				PERSONALIZATION:{TRACKS:tracksList, ARTISTS:artistsList}}
 			sendJson(w, data)
+			logger.Info("Successfully fetched all required data, responded to client.")
 		}
 	}
 }
