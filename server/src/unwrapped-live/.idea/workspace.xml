@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="40e4d732-8b0c-44ed-9db8-429ef6fa94f7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
