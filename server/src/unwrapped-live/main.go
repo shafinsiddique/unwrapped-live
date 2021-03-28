@@ -253,7 +253,7 @@ func initEnv() {
 func main() {
 	initLogger()
 	initEnv()
-	addr := "127.0.0.1:5000"
+	addr := ":5000"
 	router := mux.NewRouter()
 	router.HandleFunc("/auth/{code}", authorize).Methods(http.MethodGet)
 	router.HandleFunc("/data", getData).Methods(http.MethodPost)
