@@ -17,6 +17,8 @@ import (
 	"time"
 )
 
+/*
+ */
 var logger *logrus.Logger
 var CLIENT_SECRET string
 var JWT_SECRET string
