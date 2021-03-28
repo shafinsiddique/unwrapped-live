@@ -1,6 +1,6 @@
 import React from 'react'
 import {HOME, JWT_KEY, WRAPPED} from "../components/consts";
-
+import Head from 'next/head'
 export default class RedirectPage extends React.Component {
     componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -25,6 +25,10 @@ export default class RedirectPage extends React.Component {
     }
 
     render(){
-        return <div></div>
+        return <html>
+        <Head>
+            <title>Redirecting</title>
+        </Head>
+        </html>
     }
 }

@@ -18,3 +18,8 @@ export const URL = "url"
 export const NAME = "name"
 export const PROFILE = "profile"
 export const DISPLAY_NAME = "display_name"
+
+export function redirectToHome() {
+    window.location.href = HOME
+}
+

@@ -4,7 +4,7 @@ import SpotifyButton from '../components/SpotifyButton'
 import React from 'react'
 const CLIENT_ID = "0fcccb78740a42dab96c20f4ebb9dbae"
 const REDIRECT_URI = "http://localhost:3000/redirect"
-
+import Head from 'next/head'
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props)
@@ -17,7 +17,12 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        return <div className="container gradient-bg">
+        return <html>
+        <Head>
+            <title>Unwrapped.Live - Get Your Spotify Wrapped.</title>
+        </Head>
+        <body className="gradientBg">
+        <div className="container gradient-bg">
             <Navbar/>
             <div>
                 <div className={styles.mainContentContainer + " " + styles.mainContentContainerPadding}>
@@ -33,6 +38,8 @@ export default class HomePage extends React.Component {
                 </div>
             </div>
         </div>
+        </body>
+        </html>
     }
 
 }

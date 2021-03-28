@@ -4,13 +4,13 @@ import {
     API_GET_DATA,
     API_REFRESH,
     ARTISTS,
-    DISPLAY_NAME,
+    DISPLAY_NAME, HOME,
     IMAGES,
     JWT_KEY,
     NAME,
     PERSONALIZATION,
     POST,
-    PROFILE,
+    PROFILE, redirectToHome,
     TRACKS,
     WRAPPED
 } from '../components/consts'
@@ -23,6 +23,7 @@ export default class Wrapped extends React.Component {
     constructor(props) {
         super(props)
         this.state = {data:{}}
+        this.onLogOut = this.onLogOut.bind(this)
     }
 
     componentDidMount() {
@@ -38,26 +39,22 @@ export default class Wrapped extends React.Component {
                 headers:{"Content-Type":"application/json"}}).then(response => response.json()).then(data => {
                     jwt_token = data["jwt"]
                     localStorage.setItem(JWT_KEY, jwt_token)
-                    window.location.href = WRAPPED
                     fetch(API_GET_DATA, {body:JSON.stringify({"jwt":jwt_token}),method:"POST",
                         headers:{"Content-Type":"application/json"}}).then(response => response.json()).then(data => {
                         var state = {data:data}
                         this.setState(state)
 
                     }).catch(() => {
-
+                        redirectToHome()
                     })
                 })
             })
 
 
         } else {
-
+            redirectToHome()
         }
 
-        // if (!validated) {
-        //     window.location.href = HOME
-        // }
     }
 
     getTrackListings() {
@@ -108,6 +105,11 @@ export default class Wrapped extends React.Component {
 
     }
 
+    onLogOut(e) {
+        localStorage.removeItem(JWT_KEY)
+        redirectToHome()
+    }
+
     getName() {
         const defaultName = "Your"
         if (this.state.data[PERSONALIZATION]) {
@@ -134,8 +136,6 @@ export default class Wrapped extends React.Component {
                 <div className={styles.summaryContainer}>
                     <span className={styles.summaryTableHeader}>
                         {name + " Top Tracks"}
-
-                        {/*Your Top Tracks*/}
                     </span>
                     <div className={tracksRowStyle}>
                         {this.getTrackListings()}
@@ -143,18 +143,15 @@ export default class Wrapped extends React.Component {
 
                     <span className={styles.summaryTableHeader  + " " + styles.secondHeaderPadding}>
                         {name + " Top Artists"}
-                        {/*Your Top Artists*/}
                     </span>
                     <div className={tracksRowStyle}>
                         {this.getArtistListings()}
                     </div>
                     <div style={{"paddingTop":"50px"}}>
-                        <SpotifyButton>
+                        <SpotifyButton onClick={this.onLogOut}>
                             Log Out
                         </SpotifyButton>
                     </div>
-
-
                 </div>
             </div>
         </div>
