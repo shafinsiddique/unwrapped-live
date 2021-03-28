@@ -1,5 +1,5 @@
 import React from 'react'
-import {HOME, JWT_KEY, WRAPPED} from "../components/consts";
+import {HOME, JWT_KEY, redirectToHome, WRAPPED} from "../components/consts";
 import Head from 'next/head'
 export default class RedirectPage extends React.Component {
     componentDidMount() {
@@ -13,13 +13,13 @@ export default class RedirectPage extends React.Component {
                 window.location.href = WRAPPED
 
             }).catch(() => {
-                window.location.href = HOME
+                redirectToHome()
             })
 
         } else if (localStorage.getItem(JWT_KEY) !== null) {
             window.location.href = WRAPPED
         } else {
-            window.location.href = HOME
+            redirectToHome()
         }
 
     }

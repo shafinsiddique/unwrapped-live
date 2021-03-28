@@ -21,10 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="40e4d732-8b0c-44ed-9db8-429ef6fa94f7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/logs.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/wrapped.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/Wrapped.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/styles/Wrapped.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/redirect.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../unwrapped-live-client/pages/redirect.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

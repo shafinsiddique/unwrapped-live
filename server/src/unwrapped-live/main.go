@@ -104,12 +104,16 @@ func getAccessToken(code string, grantType string) (*AuthResponse, int,  error) 
 func sendJwt(code string, grantType string, w http.ResponseWriter) {
 	token, status, err := getAccessToken(code, grantType)
 	if err != nil {
+		logger.Error("Error trying to get Access Token from Spotify. Check Network Connectivity.")
 		w.WriteHeader(http.StatusServiceUnavailable)
 	} else if status != http.StatusOK {
 		w.WriteHeader(status)
+		logger.WithFields(logrus.Fields{"status code":status}).Info("Non 200 Response when trying to " +
+			"fetch access token.")
 	} else {
 		jwtToken := getJwt(token)
 		sendJson(w, map[string]string{JWT:jwtToken})
+		logger.Info("Successfully fetched Access Token and responded with JWT.")
 	}
 }
 
@@ -123,10 +127,12 @@ func tryParseJwt(r *http.Request) (jwt.MapClaims, error) {
 	body := &JWTBody{}
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
+		logger.Info("received non json body.")
 		return nil, err
 	} else if body.Jwt == "" {
+		logger.Info("received bad request without 'jwt'.")
 		return nil, errors.New("missing required field 'jwt'")
-	}else {
+	} else {
 			jwt_token := body.Jwt
 			claims := jwt.MapClaims{}
 			token, err := jwt.ParseWithClaims(jwt_token, claims, func(token *jwt.Token) (interface{}, error) {
@@ -148,6 +154,7 @@ func tryGetDataFromSpotify(url string, token string) (map[string]interface{},int
 	resp, err := client.Do(req) // only possible error should be networkl connectivity problems, send a internal
 	// server error to client.
 	if err != nil {
+		logger.WithFields(logrus.Fields{"url":url}).Error("Error fetching data from Spotify.")
 		return nil, 0, err
 	}
 
