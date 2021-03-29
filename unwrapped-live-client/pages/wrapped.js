@@ -87,7 +87,6 @@ export default class Wrapped extends React.Component {
         if (this.state.data[PERSONALIZATION]) {
             var artists = this.state.data[PERSONALIZATION][ARTISTS]
             artists.forEach((artist, i) => {
-                console.log(artist)
                 var listing_style = i == 0 ? styles.listing : styles.listing + " " + styles.listingPadding
                 var listing = <div className={listing_style} key={"track-"+i}>
                     <div className={styles.imgBox + " " + styles.imgButton}>

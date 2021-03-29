@@ -3,8 +3,8 @@ import Navbar from "../components/Navbar";
 import SpotifyButton from '../components/SpotifyButton'
 import React from 'react'
 const CLIENT_ID = "0fcccb78740a42dab96c20f4ebb9dbae"
-const REDIRECT_URI = "http://localhost:3000/redirect"
 import Head from 'next/head'
+import {REDIRECT} from "../components/consts";
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props)
@@ -13,7 +13,7 @@ export default class HomePage extends React.Component {
 
     onConnectButtonClick(e){
         window.location.href =
-            `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=user-top-read`
+            `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT}&response_type=code&scope=user-top-read`
     }
 
     render() {

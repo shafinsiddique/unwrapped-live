@@ -9,6 +9,7 @@ import (
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -31,7 +32,7 @@ const (
 	GRANT_TYPE                = "grant_type"
 	AUTHORIZATION_CODE        = "authorization_code"
 	REDIRECT_URI_PARAM        = "redirect_uri"
-	REDIRECT_URI              = "http://localhost:3000/redirect"
+	REDIRECT_URI              = "https://www.unwrapped.live/redirect"
 	CONTENT_TYPE_HEADER       = "Content-Type"
 	CLIENT_ID_KEY             = "client_id"
 	CLIENT_SECRET_KEY         = "client_secret"
@@ -93,13 +94,15 @@ func getAccessToken(code string, grantType string) (*AuthResponse, int, error) {
 	resp, err := http.Post(EXCHANGE_TOKEN_LINK, CONTENT_TYPE_FORM_ENCODED, strings.NewReader(data.Encode()))
 	// oinly errror should be network connectivity, send service unavailable.
 	if err != nil {
-		logger.Error("Error trying to get Access Token from Spotify. Check Network Connectivity.")
+		logger.WithFields(logrus.Fields{"error":err}).
+			Error("Error trying to get Access Token from Spotify. Check Network Connectivity.")
 		return nil, 0, err
 	} else if resp.StatusCode != http.StatusOK {
 		logger.WithFields(logrus.Fields{"status code": resp.StatusCode}).
 			Info("Non 200 Response when trying to " +
 				"fetch access token.")
-
+		body, _ := ioutil.ReadAll(resp.Body)
+		logger.WithFields(logrus.Fields{"body":string(body)})
 		return nil, resp.StatusCode, nil
 	}
 
