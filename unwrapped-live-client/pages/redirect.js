@@ -12,8 +12,7 @@ export default class RedirectPage extends React.Component {
                 window.location.href = WRAPPED
 
             }).catch(() => {
-                console.log("eror rhere")
-                // redirectToHome()
+                redirectToHome()
             })
 
         } else if (localStorage.getItem(JWT_KEY) !== null) {
