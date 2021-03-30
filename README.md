@@ -6,22 +6,22 @@ Available on : https://www.unwrapped.live
 
 ![unwrapped.live](home.png)
 
-#### Install
+### Install
 
 In order to run the application locally, you will need to clone the repository and build the backend and frontend seperately. 
 
-Build Backend:
+#### Build Backend:
 
     cd server/src/unwrapped-live
     go build . -o unwrapped-live
     ./unwrapped-live
 
-Build Frontend:
+#### Build Frontend:
     
     cd unwrapped-live-client
     npm run dev
 
-#### Prerequisites
+### Prerequisites
 
 In order to run the application locally, you will need a Spotify API Client ID and Secret. You can get them from https://developer.spotify.com.
 
